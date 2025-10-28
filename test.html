@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>测试页面</title>
+</head>
+<body>
+    <h1>JavaScript加载测试</h1>
+    <div id="status">加载中...</div>
+    <div id="error" style="color: red;"></div>
+
+    <script>
+        window.onerror = function(msg, url, line, col, error) {
+            document.getElementById('error').innerHTML =
+                'Error: ' + msg + '<br>' +
+                'Line: ' + line + '<br>' +
+                'Column: ' + col + '<br>' +
+                'Error object: ' + JSON.stringify(error);
+            return false;
+        };
+
+        try {
+            // 尝试加载game.js
+            const script = document.createElement('script');
+            script.src = 'game.js';
+            script.onload = function() {
+                document.getElementById('status').textContent = 'game.js 加载成功！';
+                document.getElementById('status').style.color = 'green';
+
+                // 检查是否能创建Game实例
+                if (typeof Game !== 'undefined') {
+                    document.getElementById('status').innerHTML += '<br>Game类存在';
+                } else {
+                    document.getElementById('error').innerHTML = 'Game类未定义';
+                }
+            };
+            script.onerror = function() {
+                document.getElementById('error').textContent = 'game.js 加载失败';
+            };
+            document.head.appendChild(script);
+        } catch(e) {
+            document.getElementById('error').textContent = 'Exception: ' + e.message;
+        }
+    </script>
+</body>
+</html>

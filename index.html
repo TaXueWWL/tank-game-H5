@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>坦克大战 - Battle City</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Courier New', monospace;
+            color: #fff;
+        }
+
+        #gameContainer {
+            position: relative;
+        }
+
+        canvas {
+            border: 2px solid #666;
+            background: #000;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        #ui {
+            position: absolute;
+            top: 10px;
+            right: -220px;
+            width: 200px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #666;
+        }
+
+        #ui h3 {
+            color: #ff0;
+            margin-bottom: 10px;
+        }
+
+        #ui p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        #gameOver, #levelComplete {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 40px;
+            border: 4px solid #ff0;
+            text-align: center;
+            display: none;
+        }
+
+        #gameOver h2, #levelComplete h2 {
+            color: #f00;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        #levelComplete h2 {
+            color: #0f0;
+        }
+
+        button {
+            background: #ff0;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 5px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #fff;
+        }
+
+        .controls {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas" width="832" height="832"></canvas>
+
+        <div id="ui">
+            <h3>游戏信息</h3>
+            <p>关卡: <span id="level">1</span></p>
+            <p>生命: <span id="lives">3</span></p>
+            <p>分数: <span id="score">0</span></p>
+            <p>敌军: <span id="enemies">20</span></p>
+            <p id="combo" style="display: none; color: #f80; font-weight: bold;"></p>
+            <div class="controls">
+                <p><strong>操作说明:</strong></p>
+                <p>WASD - 移动</p>
+                <p>空格 - 射击</p>
+                <p>P - 暂停</p>
+            </div>
+        </div>
+
+        <div id="gameOver">
+            <h2>游戏结束</h2>
+            <p>最终分数: <span id="finalScore">0</span></p>
+            <button onclick="game.restart()">重新开始</button>
+        </div>
+
+        <div id="levelComplete">
+            <h2>关卡完成!</h2>
+            <p>分数: <span id="levelScore">0</span></p>
+            <button onclick="game.nextLevel()">下一关</button>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>

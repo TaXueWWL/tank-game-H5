@@ -1,0 +1,16 @@
+{
+  "name": "tank-game",
+  "version": "1.0.0",
+  "description": "一个基于HTML5 Canvas技术开发的经典坦克大战游戏，忠实还原FC红白机时代的经典玩法，并加入现代化视觉优化和创新游戏机制。包含多子弹系统、创新道具、连击系统、分数倍增和成就系统。",
+  "main": "game.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "playwright": "^1.56.0"
+  }
+}

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>调试版本</title>
+    <style>
+        body {
+            background: #222;
+            color: #fff;
+            font-family: monospace;
+            padding: 20px;
+        }
+        #log {
+            background: #000;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #666;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        canvas {
+            border: 2px solid #0f0;
+            background: #000;
+        }
+        .error { color: #f00; }
+        .success { color: #0f0; }
+        .info { color: #ff0; }
+    </style>
+</head>
+<body>
+    <h1>坦克大战 - 调试模式</h1>
+    <div id="log"></div>
+    <canvas id="gameCanvas" width="832" height="832"></canvas>
+
+    <script>
+        const logDiv = document.getElementById('log');
+
+        function log(msg, type = 'info') {
+            const p = document.createElement('p');
+            p.className = type;
+            p.textContent = new Date().toLocaleTimeString() + ' - ' + msg;
+            logDiv.appendChild(p);
+            logDiv.scrollTop = logDiv.scrollHeight;
+            console.log(msg);
+        }
+
+        window.onerror = function(msg, url, line, col, error) {
+            log('ERROR: ' + msg + ' (Line: ' + line + ', Col: ' + col + ')', 'error');
+            return false;
+        };
+
+        log('开始加载游戏...', 'info');
+        log('Canvas元素: ' + (document.getElementById('gameCanvas') ? '找到' : '未找到'),
+            document.getElementById('gameCanvas') ? 'success' : 'error');
+    </script>
+
+    <script src="game.js"></script>
+
+    <script>
+        setTimeout(function() {
+            log('检查Game类: ' + (typeof Game !== 'undefined' ? '已定义' : '未定义'),
+                typeof Game !== 'undefined' ? 'success' : 'error');
+
+            log('检查game实例: ' + (typeof game !== 'undefined' ? '已创建' : '未创建'),
+                typeof game !== 'undefined' ? 'success' : 'error');
+
+            if (typeof game !== 'undefined') {
+                log('Game.running: ' + game.running, 'info');
+                log('Game.player: ' + (game.player ? '存在' : '不存在'),
+                    game.player ? 'success' : 'error');
+                log('Game.enemies.length: ' + game.enemies.length, 'info');
+                log('Game.map: ' + (game.map ? '存在' : '不存在'),
+                    game.map ? 'success' : 'error');
+
+                // 手动触发一次渲染
+                if (game.ctx) {
+                    log('尝试手动渲染...', 'info');
+                    try {
+                        game.render();
+                        log('手动渲染成功', 'success');
+                    } catch(e) {
+                        log('渲染错误: ' + e.message, 'error');
+                    }
+                }
+            }
+        }, 100);
+    </script>
+</body>
+</html>
